@@ -96,7 +96,13 @@ func (nn Nodes) queryNodes(q int64, r []Node) []Node {
 	if q > nn[mid].Max {
 		return r
 	}
-	if q >= nn[mid].Start && q <= nn[mid].End {
+	if q < nn[mid].Start {
+		if mid > 0 {
+			return nn[:mid].queryNodes(q, r)
+		}
+		return r
+	}
+	if q <= nn[mid].End {
 		r = append(r, nn[mid])
 	}
 	if mid > 0 {
